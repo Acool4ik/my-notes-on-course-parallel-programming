@@ -1,0 +1,120 @@
+# GIT Lecture 1
+
+* What is GIT? - VCS (version control system) for ANY file
+
+*       Types of VCS
+        |          |
+centralized        destributed
+// full history    // full history
+of versions only   is containes in local
+on REMOTE repo     copy EACH NODE
+
+* How work git? Example:
+cm1     cm2     cm3     ...     cmn // cm - commit
+v1      v2      v3      ...     vn
+A1      A2      A2      ...     A2
+B1      B1      B1      ...     B1
+C1      C2      C3      ...     C3
+NOTE: Git work ONLY WITH STATE, NOT DIFFERENCE
+
+NOTES: Every version-time git save "link" on "snap" data's
+In difference other VCS which storage difference between "vk" and "vk-1"
+
+WARNING: If is changed "hash-value" previous commit, then it will be rewrite all 
+hash next commits
+
+* Files can be: TRACKED and UNTRACKED by git controlling
+                |  |  |
+         modified  |  commited
+(before save state) (after save state of project)
+                   |
+                staged (after "git add")
+                // indexed files for sending to commit state
+
+* ".gitignore" - special file in repo, that move desribed files inner him to
+UNTRACKED category
+
+* "HEAD" can be - 1) link to branch link (link on link on hash) or
+                  2) link to hash (link on hash) // detached HEAD 
+FOR EXAMPLE 1: HEAD --> <branch_name> --> commit (hash sum)
+FOR EXAMPLE 2: HEAD --> commit (hash sum)
+
+NOTES: <branch_name> - link to last commit in the branch
+       hash sum <=> link id for commits
+
+
+### First settings
+1) git config --global user.name "<username>"
+2) fit congig --global user.email "<email>"
+
+NOTE: Exist config files for: HOST,       SERTAIN USER in host,   CURRENT REPO 
+                              --system    --global                --local           
+
+
+### LOCAL WORKING COMMANDS BASE:
+1) git init .                   => create empty repository
+    |-> "--bare"    - don't create working directory
+2) git log <bane|hash>          => show history of commits
+    |-> "-p"        - detailed info (all output)
+    |-> "--oneline" - print one commit in one line
+    |-> "--graph"   - show commits in graph form
+3) git status                   => currect status of project
+4) git add <files>...           => move files to "staged" status
+5) git restore <files>...       => restore files on state of last commit
+    |-> "--staged"  - the same, but if file in "staged status"
+6) git diff <files>...          => show difference compare with last commit
+    |-> "--staged"  - the same, but if file in "staged" status
+7) git mv                       => move or rename file (the same in linux)
+                                // do "git add" "underhood"
+8) git rm                       => delete file
+    |-> "--cached"  - delete from git but stay it before commit
+                                // do "git add" "underhood"
+                                // to retrieve last state: git restore --staged + git restore
+9)  git branch <bname|hash>     => create new branch
+10) git checkout <bname|hash>   => switch to other branch
+                                // may be cases when HEAD is detached
+                                // need attach HEAD to BRANCH, don't hash
+11) git branch                  => to look all branches
+    |-> "-a"        - all branches (includes remote)
+    |-> "-d" <bname>- delete branch
+12) get reset <hash>            => detele last some commits BY MOVE branch link to OTHER HASH
+    |-> "--hard"    - fot ability reestablish those commits
+                                // always use with this flag
+
+
+### REMOTE COMMANDS BASE:
+
+* Connection: HTTPS or SHH
+              |        |-> don't need to enter 
+need enter login + pass every time
+
+1) git clone <http|ssh|path>
+2) git remote add <bname> <addr>=> add remote repo and connect bname with url|path
+3) git push <brname> <bname> <tags>...   => push changing from bname to brname
+    |-> "--tags"    - push all tags to server
+4) git remote                   => show list of remotes repos
+    |-> "-v"        - extended output
+5) git fetch <brname>           => get actually information from remote repo +
+                                shift remote link on new position, but don't
+                                change file locally, but how see new changes?
+                                Need merge remote branch with local!
+
+WARNING: <brname> - remote link (we can't move it locally). It exist to show on such 
+commit is locate branch-link on REMOTE repo.
+
+6) git pull <brname> <bname>    => git fetch + git merge (may be conflict)
+NOTE: had better use fetch and merge separatly. If conflict: change files, then repeat 
+merge manually, and we will get merged commits LOCALLY, then push them to remote repo
+
+7) git tag <tagname>            => create light tag for current branch
+    |-> "-a" <tagname>  - craete annotated tag (more havily)
+    |-> "-m" "<msg>"    - add message to tag
+8) git tag                      => show all tags
+NOTE: be default tags will not be pushed to server
+
+
+
+
+
+
+

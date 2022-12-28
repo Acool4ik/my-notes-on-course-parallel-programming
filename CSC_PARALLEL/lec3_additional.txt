@@ -1,0 +1,86 @@
+    ### LECTUTE №3
+
+Resourse - absolutly any: file, variable, etc...
+Parallel programming - programming between lines
+
+-----------------
+| 32bit | 32bit | <- 64 buit number in 32 bit arcitecture
+-----------------
+    Data race situation:
+move // part 1
+                <-- interrupt
+move // part 2
+
+	Primitives os syncronization
+
+Thread-save data structure create logical connection primitive with data
+// in purpose don't think about race-condition {concurrent vector, ...}
+
+IMPORTATNT:  
+	- it don't assosiated with data (primitive---x---data)
+	- take mtx == foll to kernel space
+	- if not-recursive to lock second time == deadlock
+
+List of primitives:
+    - mtx (mutual exclusion) - resource of OS {recursive, not recursive}
+    In current time (in Boost) exist more functionality primitives like as:
+    - timed_mtx - lock resource by specified time value
+    - shared_mtx - r/w lock (readers more than writers)
+    - queue_mtx - K-limited wait
+    - spin_mtx - when we often use lock/unlock for simple structure
+    		 NOTE: it must't use with any system call
+    
+
+* thread save resource = primitive + resource
+    |-> for example: exist "vector" and "concarrent vector"
+
+* Deadlock: situation, when more tan 2 threads loops in infinitive cicle
+    
+* pthread mutex_t - structure of kernel space
+    
+* Exist resursive and not recursive primitives
+    |                 |
+    lock = 1 times    can lock > 1 times in one thread
+                      |-> for example: concarrent vector
+                                       |             |
+                                       push_back     size
+                      // and push_bask ans size use primitive
+                      // buck_back call size --> deadlock if 
+                      // not recursieve primitive
+ 
+NOTES FOR EXAMPLE: can don't use recursieve primitive and separate safe 
+and not safe methods. Better don't use recursieve primitives.
+
+NOTE FOR PTHREAD MUTEX: is recursieve (more havily than simple mtx)
+
+* CAS operations - compare and set // assemblym instruction
+  |-> atomic operation on hardware lvl (cmpxchg +i486 was added)
+// set new value only if 'old value == current value'
+
+IMPORTANT: 
+* Atomic variables - wrapper over primitives types with atomic
+instructions over them. (implemented by just types and CAS operations)
+
+* Ptimitives in C++ must be implemented by RAII
+	Emample:
+{   <-- scope
+    lock();
+    
+    try {   // if exeption, then auto-unlock will be done by destructor
+    }
+    catch(...) {
+    }
+    ... <-- auto-unlock by destructor
+}
+
+// честные примитивы - те, что используют только ядро ОС
+Early, mutexes was only in kernel space, then it have done partially in 
+user space.
+
+* Futex - fast userspace muTexes
+- was added since Linux ~2.6 for optimizations
+- based on CAS operations, but with kernel space supportion
+- all modern primitives based on Futexes
+- if exist case, when we can't go to kernel - so we do as well
+
+* lll (low lvl lock)
