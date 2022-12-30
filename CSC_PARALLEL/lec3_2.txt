@@ -1,4 +1,4 @@
-    ### LECTUTE №3
+    Lecture 3 (part 2)
 
 Resourse - absolutly any: file, variable, etc...
 Parallel programming - programming between lines
@@ -84,3 +84,4 @@ user space.
 - if exist case, when we can't go to kernel - so we do as well
 
 * lll (low lvl lock)
+

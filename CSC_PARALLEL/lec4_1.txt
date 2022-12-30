@@ -1,4 +1,4 @@
-### Lecture 4
+	Lecture 4 (part 1)
 
 Other primitive synchronize: "condition variables" 
 // need for communication between threads
