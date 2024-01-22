@@ -1,0 +1,49 @@
+	Lecture 3 (part 1)
+
+main (default ending)
+ |
+pthread_create()------->|
+ |			|
+ |			|
+ |			|
+ |			|
+pthread_join()<---------|
+ |
+return 0
+
+	Pthread API (oriented in Linux kernel)
+
+1) pthread_cancel() - set flag in 'pthread' structure which means, 
+that somebody wants to end thread
+2) pthread_test_cancel() - check flag, if (true) 
+	- call cancellation_points
+	- call pthread_exit()
+3) pthread_clenup_push()/pop() - add/remove cancellation point to stack
+
+IMPORTANT: any thread can call pthread_cancel()
+Many syscallc - cancellation points {wait, read, write, sleep} ~ 100 cnt
+
+4) pthread_join() - is't cancellation point 
+5) pthread_set_attr()
+	- PTHREAD_CANCEL_ENABLE/DISABLE - turn on/off pthread_test_cancel()
+// after set ENABLE - start auto check by pthread_test_cancel()
+6) pthread_wait()
+7) pthread_kill(id, signal) - send signal to certain thread 
+
+thread 1		thread 2
+main
+ |
+pthread_create()--------|
+ |			|
+ |			throw exeption;
+ |
+pthread_join()
+
+NOTE: Cannot use try in thread1 to catch exeption from thread2
+* exeption_ptr - can get first exeption in chain of exeptions
+
+sockerts
+ |
+pcap - wireshark
+     - tcpdump
+

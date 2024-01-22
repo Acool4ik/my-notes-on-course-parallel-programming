@@ -1,0 +1,29 @@
+	Lecture 1
+
+multithreding  		|    	multiprocessing (isolated, safety,
+			|	fault tolerance [segf])
+			|	// real-time OS (QNX)
+----------------------------------------------------------------------
++ share same addr space |    	shmem (see /dev/shm, used by browsers)
+--> TLB is more 	|    	pipes (thread safety from box)
+performance	 	|    	file
++ simply implement	|    	socket
++ more crossplatform 	|    	mmap
+		 	|    	signals (async)
+
+	TLB (translation lookeside buffer) - buffer for caching indexes 
+after translation pages from virtual memory to physical memory
+// Get page from cache ~60 times faster then calculate throw tables
+
+	SSE (Streming SIMD Extentions or Vectorization) - extention
+for CPU (for work with floating points)
+// already exist mmx (multi-media extention)
+
+__asm { // cpecific code ... };
+
+	Degree of connectivity:
+1) friend relation (C++ only)
+2) inheriance
+3) composition // class A { B instance_; }; don't exist separately
+4) agregation // class A { B * ptr_;  }; exist separately
+
